@@ -1,12 +1,20 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UsersModule } from './modules/users/users.module';
 import { AccountsModule } from './modules/accounts/accounts.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 
 @Module({
-  controllers: [AppController],
-  providers: [AppService],
-  imports: [UsersModule, AccountsModule],
+  imports: [
+    MongooseModule.forRoot('mongodb://localhost/pssmanager'),
+    GraphQLModule.forRoot({
+      autoSchemaFile: true,
+      playground: false,
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
+    }),
+    UsersModule,
+    AccountsModule,
+  ],
 })
 export class AppModule {}
