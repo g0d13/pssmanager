@@ -37,4 +37,9 @@ describe('UsersResolver', () => {
 
     expect(resolver).toBeDefined();
   });
+
+  it('should return pong', async () => {
+    const resp = resolver.ping();
+    expect(resp).toBe('pong');
+  });
 });
