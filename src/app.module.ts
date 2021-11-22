@@ -3,6 +3,7 @@ import { UsersModule } from './modules/users/users.module';
 import { AccountsModule } from './modules/accounts/accounts.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { GraphQLModule } from '@nestjs/graphql';
+import { GroupsService } from './modules/groups/groups.service';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 
 @Module({
@@ -16,5 +17,6 @@ import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
     UsersModule,
     AccountsModule,
   ],
+  providers: [GroupsService],
 })
 export class AppModule {}
