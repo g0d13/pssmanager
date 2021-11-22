@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Schema } from 'mongoose';
+import { Model } from 'mongoose';
+import { Group, GroupDocument } from '../groups/schema/group.schema';
 import { CreateUserInput, UpdateUserInput } from './dto/user.input';
 import { User, UserDocument } from './schema/user.schema';
-
+import { Schema } from 'mongoose';
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name)
     private readonly userDocument: Model<UserDocument>,
+    @InjectModel(Group.name)
+    private readonly groupModel: Model<GroupDocument>,
   ) {}
 
   async findAll(): Promise<User[]> {
@@ -20,8 +23,9 @@ export class UsersService {
   }
 
   async create(userInput: CreateUserInput) {
+    const group = await this.groupModel.create({});
     const user = await this.userDocument.create(userInput);
-    await user.save();
+    group.users.push(user);
     return user;
   }
 
